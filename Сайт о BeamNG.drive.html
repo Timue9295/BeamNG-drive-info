@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeamNG.drive — Мир физики и мягких тел</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        beamOrange: '#ff6600',
+                        beamOrangeHover: '#e65c00',
+                        darkBg: '#0b0f19',
+                        darkCard: '#151c2c',
+                        darkBorder: '#232e48'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar and animations */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff6600;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e65c00;
+        }
+        .glow-orange {
+            box-shadow: 0 0 25px rgba(255, 102, 0, 0.35);
+        }
+        .glow-orange-lg {
+            box-shadow: 0 0 50px rgba(255, 102, 0, 0.45);
+        }
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(255, 102, 0, 0.15) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-100 font-sans antialiased selection:bg-beamOrange selection:text-white">
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-darkBg/80 backdrop-blur-md border-b border-darkBorder">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 text-2xl font-black tracking-wider uppercase group">
+                <span class="w-10 h-10 rounded-lg bg-beamOrange flex items-center justify-center text-white transform group-hover:rotate-12 transition-transform duration-300 shadow-lg shadow-beamOrange/40">
+                    <i class="fa-solid font-bold text-xl">B</i>
+                </span>
+                <span>BeamNG<span class="text-beamOrange">.drive</span></span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+                <a href="#about" class="hover:text-beamOrange transition-colors">Об игре</a>
+                <a href="#benefits" class="hover:text-beamOrange transition-colors">Польза</a>
+                <a href="#fun" class="hover:text-beamOrange transition-colors">Почему интересно</a>
+                <a href="https://www.beamng.com/" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-lg bg-beamOrange hover:bg-beamOrangeHover text-white shadow-lg shadow-beamOrange/30 transition-all hover:scale-105 active:scale-95">
+                    Официальный сайт <i class="fa-solid fa-arrow-up-right-from-square ml-1.5 text-xs"></i>
+                </a>
+            </nav>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="menu-btn" class="md:hidden text-2xl text-slate-300 focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darkCard border-b border-darkBorder px-6 py-6 space-y-4">
+            <a href="#about" class="block text-slate-300 hover:text-beamOrange font-semibold py-2">Об игре</a>
+            <a href="#benefits" class="block text-slate-300 hover:text-beamOrange font-semibold py-2">Польза</a>
+            <a href="#fun" class="block text-slate-300 hover:text-beamOrange font-semibold py-2">Почему интересно</a>
+            <a href="https://www.beamng.com/" target="_blank" rel="noopener noreferrer" class="inline-block w-full text-center py-3 rounded-lg bg-beamOrange text-white font-bold">
+                Официальный сайт BeamNG
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden bg-grid-pattern">
+        <!-- Ambient background gradients -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-beamOrange/15 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-beamOrange/10 border border-beamOrange/30 text-beamOrange text-xs sm:text-sm font-semibold tracking-wide uppercase mb-6 backdrop-blur-sm">
+                <i class="fa-solid fa-atom text-xs"></i> Физика мягких тел нового поколения
+            </span>
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-none mb-6">
+                Реализм без границ.<br class="hidden sm:inline"/>
+                <span class="bg-gradient-to-r from-beamOrange via-amber-500 to-amber-300 bg-clip-text text-transparent">Разрушай и исследуй.</span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-400 font-normal leading-relaxed mb-10">
+                BeamNG.drive — это уникальный автомобильный симулятор с непревзойденной физикой повреждений и детальным воссозданием узлов автомобиля. Здесь вы вольны делать всё, что угодно.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://www.beamng.com/" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-beamOrange hover:bg-beamOrangeHover text-white font-bold text-lg shadow-xl shadow-beamOrange/30 glow-orange transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-globe"></i> Перейти на beamng.com
+                </a>
+                <a href="#about" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-darkCard hover:bg-slate-800 text-slate-200 border border-darkBorder font-semibold text-lg transition-all hover:-translate-y-0.5 active:translate-y-0">
+                    Узнать больше
+                </a>
+            </div>
+
+            <!-- Visual Preview Card -->
+            <div class="mt-14 relative max-w-5xl mx-auto rounded-2xl overflow-hidden border border-darkBorder bg-darkCard shadow-2xl shadow-beamOrange/10">
+                <div class="p-4 bg-darkCard/90 border-b border-darkBorder flex items-center justify-between text-xs text-slate-400">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-yellow-500/80 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
+                    </div>
+                    <span class="font-mono text-slate-500">beamng_softbody_simulation_core.cpp</span>
+                </div>
+                <div class="relative bg-slate-900 p-8 sm:p-12 text-left grid md:grid-cols-3 gap-6">
+                    <div class="bg-darkBg/60 backdrop-blur p-6 rounded-xl border border-darkBorder/60">
+                        <div class="text-beamOrange text-3xl font-black mb-1">100%</div>
+                        <div class="text-sm font-semibold text-slate-300">Деформируемая физика</div>
+                        <div class="text-xs text-slate-500 mt-2">Каждая деталь реагирует на столкновения в реальном времени.</div>
+                    </div>
+                    <div class="bg-darkBg/60 backdrop-blur p-6 rounded-xl border border-darkBorder/60">
+                        <div class="text-beamOrange text-3xl font-black mb-1">500+</div>
+                        <div class="text-xs font-mono uppercase bg-slate-800 px-2 py-0.5 rounded text-amber-400 inline-block mb-1">Сообщество</div>
+                        <div class="text-sm font-semibold text-slate-300">Тысячи модификаций</div>
+                        <div class="text-xs text-slate-500 mt-2">Машины, карты, сценарии и кастомные детали.</div>
+                    </div>
+                    <div class="bg-darkBg/60 backdrop-blur p-6 rounded-xl border border-darkBorder/60">
+                        <div class="text-beamOrange text-3xl font-black mb-1">∞</div>
+                        <div class="text-sm font-semibold text-slate-300">Полная свобода</div>
+                        <div class="text-xs text-slate-500 mt-2">Песочница, бездорожье, гонки и испытания.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: What is the game? -->
+    <section id="about" class="py-20 bg-darkBg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-sm font-bold text-beamOrange uppercase tracking-wider mb-3">Информация</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold text-white">Что такое BeamNG.drive?</p>
+                <div class="w-16 h-1 bg-beamOrange mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <p class="text-slate-300 text-lg leading-relaxed">
+                        <strong class="text-white">BeamNG.drive</strong> — это реалистичная авто-песочница с открытым миром, предлагающая практически безграничные возможности. В основе игры лежит запатентованный движок физики мягких тел (<span class="text-beamOrange font-semibold">Soft-Body Physics</span>).
+                    </p>
+                    <p class="text-slate-400 leading-relaxed">
+                        В отличие от большинства традиционных гоночных симуляторов, где повреждения автомобилей являются лишь визуальной сеткой или простыми текстурами царапин, в BeamNG.drive каждый узел машины — рамный каркас, подвеска, двигатель, двери и стекла — симулируются в реальном времени.
+                    </p>
+
+                    <div class="space-y-4 pt-4">
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-darkCard border border-darkBorder">
+                            <div class="p-3 bg-beamOrange/10 rounded-lg text-beamOrange text-xl">
+                                <i class="fa-solid fa-car-burst"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-base">Динамическая деформация</h3>
+                                <p class="text-slate-400 text-sm mt-1">Металл гнется, сминается и скручивается точно так же, как и в реальной жизни при ДТП.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-darkCard border border-darkBorder">
+                            <div class="p-3 bg-beamOrange/10 rounded-lg text-beamOrange text-xl">
+                                <i class="fa-solid fa-cogs"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-base">Глубокая симуляция узлов</h3>
+                                <p class="text-slate-400 text-sm mt-1">Работа трансмиссии, перегрев тормозов, давления в шинах и изгиб амортизаторов.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Card showcase -->
+                <div class="bg-gradient-to-br from-darkCard to-slate-900 p-8 rounded-2xl border border-darkBorder relative overflow-hidden group">
+                    <div class="absolute -right-12 -top-12 w-48 h-48 bg-beamOrange/10 rounded-full blur-2xl group-hover:bg-beamOrange/20 transition-all duration-500"></div>
+                    <div class="relative z-10 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono text-beamOrange uppercase font-bold tracking-widest">Физический движок</span>
+                            <i class="fa-solid fa-microchip text-slate-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Уникальный опыт вождения</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Каждый автомобиль был спроектирован с нуля с высокой точностью. Вы почувствуете разницу между тяжелым внедорожником, легким спорткаром и древним грузовиком с рессорной подвеской.
+                        </p>
+                        <div class="pt-4 border-t border-darkBorder/80 flex items-center justify-between text-sm">
+                            <span class="text-slate-400">Тип игры:</span>
+                            <span class="font-semibold text-slate-200">Симулятор / Песочница</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-slate-400">Платформа:</span>
+                            <span class="font-semibold text-slate-200">PC (Windows)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: Educational & Practical Benefits -->
+    <section id="benefits" class="py-20 bg-darkCard/50 border-y border-darkBorder relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-sm font-bold text-beamOrange uppercase tracking-wider mb-3">Практическое значение</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold text-white">Чем полезна игра?</p>
+                <p class="text-slate-400 mt-3 text-base">BeamNG.drive — это не просто развлечение, но и мощный наглядный инструмент обучения.</p>
+                <div class="w-16 h-1 bg-beamOrange mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Benefit 1 -->
+                <div class="bg-darkCard p-8 rounded-2xl border border-darkBorder hover:border-beamOrange/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-beamOrange/10 border border-beamOrange/20 flex items-center justify-center text-beamOrange text-2xl mb-6">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Понимание безопасности и ДТП</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Игра наглядно демонстрирует зоны деформации кузова, инерцию и силу удара при авариях. Это прививает уважение к скорости и осознанность на реальной дороге.
+                    </p>
+                </div>
+
+                <!-- Benefit 2 -->
+                <div class="bg-darkCard p-8 rounded-2xl border border-darkBorder hover:border-beamOrange/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-beamOrange/10 border border-beamOrange/20 flex items-center justify-center text-beamOrange text-2xl mb-6">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Физика движения и вес</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Вы поймете, как смещается центр тяжести при торможении и поворотах, что такое избыточная и недостаточная поворачиваемость, а также аквапланирование.
+                    </p>
+                </div>
+
+                <!-- Benefit 3 -->
+                <div class="bg-darkCard p-8 rounded-2xl border border-darkBorder hover:border-beamOrange/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-beamOrange/10 border border-beamOrange/20 flex items-center justify-center text-beamOrange text-2xl mb-6">
+                        <i class="fa-solid fa-wrench"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Автомобильная механика</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Игра позволяет изучить устройство машин: работу блокировки дифференциалов, раздаточной коробки, настройки турбонаддува и геометрии подвески.
+                    </p>
+                </div>
+
+                <!-- Benefit 4 -->
+                <div class="bg-darkCard p-8 rounded-2xl border border-darkBorder hover:border-beamOrange/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-beamOrange/10 border border-beamOrange/20 flex items-center justify-center text-beamOrange text-2xl mb-6">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Водительские инстинкты</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        При использовании руля с обратной связью (Force Feedback) игроки учатся чувствовать сцепление колес с дорогой и вовремя реагировать на заносы.
+                    </p>
+                </div>
+
+                <!-- Benefit 5 -->
+                <div class="bg-darkCard p-8 rounded-2xl border border-darkBorder hover:border-beamOrange/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-beamOrange/10 border border-beamOrange/20 flex items-center justify-center text-beamOrange text-2xl mb-6">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Развитие навыков моддинга</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Игроки учатся работать с 3D-моделями, конфигурационными файлами JSON, текстурами и скриптами, открывая путь в сферу разработчиков.
+                    </p>
+                </div>
+
+                <!-- Benefit 6 -->
+                <div class="bg-darkCard p-8 rounded-2xl border border-darkBorder hover:border-beamOrange/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-beamOrange/10 border border-beamOrange/20 flex items-center justify-center text-beamOrange text-2xl mb-6">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Исследования и тесты</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        BeamNG активного используется автопроизводителями и исследовательскими институтами для первичного моделирования краш-тестов и автономного вождения.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: Why is it fun? -->
+    <section id="fun" class="py-20 bg-darkBg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-sm font-bold text-beamOrange uppercase tracking-wider mb-3">Геймплей</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold text-white">Почему в это интересно играть?</p>
+                <div class="w-16 h-1 bg-beamOrange mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Fun item 1 -->
+                <div class="p-8 rounded-2xl bg-gradient-to-br from-darkCard to-slate-900 border border-darkBorder flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-beamOrange text-3xl font-black"><i class="fa-solid fa-film"></i></span>
+                            <span class="text-xs font-mono px-3 py-1 rounded-full bg-beamOrange/10 text-beamOrange border border-beamOrange/20">Замедление времени</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Эпичные аварии в Slow-Motion</h3>
+                        <p class="text-slate-400 leading-relaxed text-sm">
+                            Включайте замедление времени до 100 раз и наблюдайте, как каждый элемент кузова постепенно деформируется, отлетают бамперы, лопаются шины и вылетают стекла. Это выглядит как сцена из голливудского боевика!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Fun item 2 -->
+                <div class="p-8 rounded-2xl bg-gradient-to-br from-darkCard to-slate-900 border border-darkBorder flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-beamOrange text-3xl font-black"><i class="fa-solid fa-puzzle-piece"></i></span>
+                            <span class="text-xs font-mono px-3 py-1 rounded-full bg-beamOrange/10 text-beamOrange border border-beamOrange/20">Кастомизация</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Моддинг и Свобода</h3>
+                        <p class="text-slate-400 leading-relaxed text-sm">
+                            Устанавливайте любые из десятков тысяч модов прямо из встроенного репозитория: от реальных суперкаров до самолетов, танков и космических карт. Соберите уникальный корч своей мечты.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Fun item 3 -->
+                <div class="p-8 rounded-2xl bg-gradient-to-br from-darkCard to-slate-900 border border-darkBorder flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-beamOrange text-3xl font-black"><i class="fa-solid fa-users"></i></span>
+                            <span class="text-xs font-mono px-3 py-1 rounded-full bg-beamOrange/10 text-beamOrange border border-beamOrange/20">Мультиплеер</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Совместная игра (BeamMP)</h3>
+                        <p class="text-slate-400 leading-relaxed text-sm">
+                            Играйте с друзьями и игроками со всего мира! Устраивайте полицейские погони, массовые завалы на трассах, дрифт-сессии или преодолевайте суровое off-road бездорожье вместе.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Fun item 4 -->
+                <div class="p-8 rounded-2xl bg-gradient-to-br from-darkCard to-slate-900 border border-darkBorder flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-beamOrange text-3xl font-black"><i class="fa-solid fa-trophy"></i></span>
+                            <span class="text-xs font-mono px-3 py-1 rounded-full bg-beamOrange/10 text-beamOrange border border-beamOrange/20">Сценарии</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Режим карьер и испытания</h3>
+                        <p class="text-slate-400 leading-relaxed text-sm">
+                            Развозите грузы, работайте в эвакуации, проходите испытания на скорость и точность, прыгайте с огромных трамплинов или проверяйте машины на прочность в безумных экспериментах.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: Official Link & Where to buy -->
+    <section class="py-20 bg-gradient-to-b from-darkBg to-slate-950 border-t border-darkBorder relative overflow-hidden">
+        <!-- Decoration light -->
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-beamOrange/10 rounded-full blur-[150px] pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-block p-4 rounded-full bg-beamOrange/10 border border-beamOrange/30 text-beamOrange text-3xl mb-6">
+                <i class="fa-solid fa-gamepad"></i>
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white mb-6">Готовы к первому заезду?</h2>
+            <p class="text-slate-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+                Присоединяйтесь к многомиллионному сообществу фанатов автомобильного реализма. Посетите официальный сайт, чтобы следовать за обновлениями разработчиков.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <a href="https://www.beamng.com/" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-10 py-5 rounded-xl bg-beamOrange hover:bg-beamOrangeHover text-white font-extrabold text-xl shadow-2xl shadow-beamOrange/40 glow-orange-lg transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3">
+                    <span>Официальный сайт BeamNG</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="https://store.steampowered.com/app/284160/BeamNGdrive/" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-5 rounded-xl bg-darkCard hover:bg-slate-800 text-white font-bold text-lg border border-darkBorder transition-all flex items-center justify-center gap-3">
+                    <i class="fa-brands fa-steam text-2xl"></i>
+                    <span>Купить в Steam</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 bg-slate-950 border-t border-darkBorder/60 text-slate-500 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded bg-beamOrange flex items-center justify-center text-white font-bold">B</span>
+                <span class="text-slate-300 font-bold">BeamNG.drive Fan Web-space</span>
+            </div>
+            <p class="text-center md:text-left text-xs text-slate-500">
+                Сайт создан в ознакомительных целях. Все права на BeamNG.drive принадлежат BeamNG GmbH.
+            </p>
+            <div class="flex items-center gap-4 text-slate-400">
+                <a href="https://www.beamng.com/" target="_blank" rel="noopener noreferrer" class="hover:text-beamOrange transition-colors">beamng.com</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
